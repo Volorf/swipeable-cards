@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		794C85DF2688DB5D004F1F99 /* Swipeable_CardsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794C85DE2688DB5D004F1F99 /* Swipeable_CardsApp.swift */; };
+		794C85DF2688DB5D004F1F99 /* SwipeableCardsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794C85DE2688DB5D004F1F99 /* SwipeableCardsApp.swift */; };
 		794C85E12688DB5D004F1F99 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794C85E02688DB5D004F1F99 /* ContentView.swift */; };
 		794C85E32688DB5E004F1F99 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 794C85E22688DB5E004F1F99 /* Assets.xcassets */; };
 		794C85E62688DB5E004F1F99 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 794C85E52688DB5E004F1F99 /* Preview Assets.xcassets */; };
@@ -16,7 +16,7 @@
 
 /* Begin PBXFileReference section */
 		794C85DB2688DB5D004F1F99 /* Swipeable Cards.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Swipeable Cards.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		794C85DE2688DB5D004F1F99 /* Swipeable_CardsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Swipeable_CardsApp.swift; sourceTree = "<group>"; };
+		794C85DE2688DB5D004F1F99 /* SwipeableCardsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeableCardsApp.swift; sourceTree = "<group>"; };
 		794C85E02688DB5D004F1F99 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		794C85E22688DB5E004F1F99 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		794C85E52688DB5E004F1F99 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -54,7 +54,7 @@
 		794C85DD2688DB5D004F1F99 /* Swipeable Cards */ = {
 			isa = PBXGroup;
 			children = (
-				794C85DE2688DB5D004F1F99 /* Swipeable_CardsApp.swift */,
+				794C85DE2688DB5D004F1F99 /* SwipeableCardsApp.swift */,
 				794C85EE2688DB90004F1F99 /* CardView.swift */,
 				794C85E02688DB5D004F1F99 /* ContentView.swift */,
 				794C85E22688DB5E004F1F99 /* Assets.xcassets */,
@@ -143,7 +143,7 @@
 			files = (
 				794C85E12688DB5D004F1F99 /* ContentView.swift in Sources */,
 				794C85EF2688DB90004F1F99 /* CardView.swift in Sources */,
-				794C85DF2688DB5D004F1F99 /* Swipeable_CardsApp.swift in Sources */,
+				794C85DF2688DB5D004F1F99 /* SwipeableCardsApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

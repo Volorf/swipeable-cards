@@ -9,38 +9,69 @@ import SwiftUI
 
 var days: [String] = ["Monday", "Tuesday", "Wednesday"]
 
-struct ContentView: View {
-    
-    let yOffset: CGFloat = 24
+struct ContentView: View
+{
+    let cardOffset: CGFloat = 24
     let cardRatio: CGFloat = 1.333
-    var yCardsOffset: CGFloat {
-        return -CGFloat(days.count) * yOffset / 2
+    let cardOffsetMultiplier: CGFloat = 4
+    
+    var yCardsOffset: CGFloat
+    {
+        return -CGFloat(days.count) * cardOffset / 2
     }
     
-    var body: some View {
-        VStack{
-//            Spacer()
-        GeometryReader { geometry in VStack {
-        Spacer()
-        ZStack {
-            ForEach (days, id: \.self)
-            {
-                day in
-                CardView(day: day).frame(width: geometry.size.width, height: geometry.size.width * cardRatio).offset(x:0, y: CGFloat(CGFloat(days.count - 1 - (days.firstIndex(of: day) ?? 0)) * self.yOffset))
-            }
-//            CardView().frame(height: 500)
-        
-        }.offset(y: yCardsOffset)
-            Spacer()
+    private func CalculateCardWidth(geo: GeometryProxy, offset: CGFloat, cardIndex: Int) -> CGFloat
+    {
+        return geo.size.width - ((offset * 2) * CGFloat(cardIndex))
+    }
+    
+    private func CalculateCardYOffset(offset: CGFloat, cardIndex: Int) -> CGFloat
+    {
+        return offset * CGFloat(cardIndex)
+    }
+    
+    private func CalculateItemInvertIndex(arr: [String], item: String) -> Int
+    {
+        if arr.isEmpty
+        {
+            return 0
         }
+        return arr.count - 1 - arr.firstIndex(of: item)!
     }
-    }
-//        .padding()
+    
+    var body: some View
+    {
+        VStack
+        {
+            GeometryReader
+            {
+                geometry in VStack
+                {
+                    Spacer()
+                    ZStack
+                    {
+                        ForEach (days, id: \.self)
+                        {
+                            day in
+                            CardView(day: day)
+                                .frame(width: CalculateCardWidth(geo: geometry, offset: cardOffset, cardIndex: CalculateItemInvertIndex(arr: days, item: day)), height: geometry.size.width * cardRatio)
+                                .offset(x: 0, y: CalculateCardYOffset(offset: cardOffset, cardIndex: CalculateItemInvertIndex(arr: days, item: day)) * cardOffsetMultiplier)
+                        }
+    
+                    }
+                    .offset(y: yCardsOffset)
+                    Spacer()
+                }
+            }
+        }
+        .padding(cardOffset)
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
+struct ContentView_Previews: PreviewProvider
+{
+    static var previews: some View
+    {
         ContentView()
     }
 }

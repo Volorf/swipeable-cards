@@ -1,5 +1,5 @@
 //
-//  Swipeable_CardsApp.swift
+//  SwipeableCardsApp.swift
 //  Swipeable Cards
 //
 //  Created by Oleg Frolov on 27.06.2021.
