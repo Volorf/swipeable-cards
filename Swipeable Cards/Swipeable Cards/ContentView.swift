@@ -65,7 +65,7 @@ struct ContentView: View
             }
         }
         .padding(cardOffset)
-        .background(Color(UIColor(named: "Accent") ?? UIColor.red))
+        .background(Color.GetColorFromAssets(nameOfColor: "Accent"))
         .edgesIgnoringSafeArea(.all)
     }
 }
