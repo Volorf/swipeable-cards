@@ -14,6 +14,7 @@ struct ContentView: View
     let cardOffset: CGFloat = 24
     let cardRatio: CGFloat = 1.333
     let cardOffsetMultiplier: CGFloat = 4
+    let CARD_ALPHA_STEP: Double = 0.1
     
     var yCardsOffset: CGFloat
     {
@@ -39,6 +40,11 @@ struct ContentView: View
         return arr.count - 1 - arr.firstIndex(of: item)!
     }
     
+    private func CalculateCardAlpha(cardIndex: Int) -> Double
+    {
+        return 1.0 - Double(cardIndex) * CARD_ALPHA_STEP
+    }
+    
     var body: some View
     {
         VStack
@@ -53,7 +59,7 @@ struct ContentView: View
                         ForEach (days, id: \.self)
                         {
                             day in
-                            CardView(day: day)
+                            CardView(day: day, cardAlpha: CalculateCardAlpha(cardIndex: CalculateItemInvertIndex(arr: days, item: day)))
                                 .frame(width: CalculateCardWidth(geo: geometry, offset: cardOffset, cardIndex: CalculateItemInvertIndex(arr: days, item: day)), height: geometry.size.width * cardRatio)
                                 .offset(x: 0, y: CalculateCardYOffset(offset: cardOffset, cardIndex: CalculateItemInvertIndex(arr: days, item: day)) * cardOffsetMultiplier)
                         }
@@ -65,7 +71,7 @@ struct ContentView: View
             }
         }
         .padding(cardOffset)
-        .background(Color.GetColorFromAssets(nameOfColor: "Accent"))
+        .background(Color.GetColorFromAssets(colorName: .accent))
         .edgesIgnoringSafeArea(.all)
     }
 }
