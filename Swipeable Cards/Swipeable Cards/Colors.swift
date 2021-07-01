@@ -7,7 +7,6 @@
 
 
 // Strings assiciated witn names of colors in the Assets folder
-// var colorName: String = AppColor.accent()
 
 enum AppColor: String
 {

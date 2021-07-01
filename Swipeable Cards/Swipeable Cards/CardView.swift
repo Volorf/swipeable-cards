@@ -13,6 +13,7 @@ struct CardView: View
     @State private var translation: CGSize = .zero
     var day: String = "Day"
     var cardAlpha: Double = 1.0
+    let cardRotLimit: CGFloat = 20.0
     
     var body: some View
     {
@@ -42,8 +43,9 @@ struct CardView: View
             .opacity(cardAlpha)
             .cornerRadius(24)
             .shadow(color: Color(red: 0.0, green: 0.0, blue: 0.0, opacity: 0.05), radius: 16, x: 0, y: 16)
-            .animation(.interactiveSpring(response: 0.5, blendDuration: 0.3))
+            .rotationEffect(.degrees(Double(self.translation.width / geometry.size.width * cardRotLimit)), anchor: .bottom)
             .offset(x: self.translation.width, y: self.translation.height)
+            .animation(.interactiveSpring(response: 0.5, blendDuration: 0.3))
             .gesture(
                 DragGesture()
                     .onChanged { gesture in
@@ -61,7 +63,13 @@ struct CardView: View
 
 struct CardView_Previews: PreviewProvider {
     static var previews: some View {
-        
-        CardView()
+        VStack
+        {
+            CardView()
+                .padding()
+                .offset(y: 192)
+        }
+        .background(Color.GetColorFromAssets(colorName: .accent))
+        .edgesIgnoringSafeArea(.all)
     }
 }
