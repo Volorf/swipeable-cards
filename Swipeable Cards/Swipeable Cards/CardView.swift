@@ -7,13 +7,30 @@
 
 import SwiftUI
 
+enum dayState
+{
+    case love
+    case poop
+    case empty
+}
+
 struct CardView: View
 {
     
     @State private var translation: CGSize = .zero
+    @State private var motionScale: Double = 0.0
+    @State private var iconOpacity: Double = 0.0
+    
     var day: String = "Day"
     var cardAlpha: Double = 1.0
     let cardRotLimit: CGFloat = 20.0
+    
+    private func GetIconName(offset: CGFloat) -> String
+    {
+        if offset <= -0.1   { return "Poop" }
+        if offset >= 0.1    { return "Love" }
+        return "Empty"
+    }
     
     var body: some View
     {
@@ -25,8 +42,9 @@ struct CardView: View
                 VStack
                 {
                     Spacer()
-                    Image("Love")
+                    Image(GetIconName(offset: self.translation.width))
                         .frame(width: 96, height: 96)
+                        .opacity(self.iconOpacity)
                     Spacer()
                     Spacer()
                     Spacer()
@@ -50,9 +68,14 @@ struct CardView: View
                 DragGesture()
                     .onChanged { gesture in
                 self.translation = gesture.translation
+                self.motionScale = Double(gesture.translation.width / geometry.size.width)
+                
+                self.iconOpacity = Double.Remap(from: self.motionScale, fromMin: 0.0, fromMax: 0.25, toMin: 0.0, toMax: 1.0)
+                print(self.iconOpacity)
                     }
                     .onEnded {gesture in
                         self.translation = .zero
+                        self.iconOpacity = 0.0
                     }
             )
             
