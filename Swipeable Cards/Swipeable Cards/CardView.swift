@@ -4,10 +4,11 @@
 //
 //  Created by Oleg Frolov on 27.06.2021.
 //
+// My original concept https://dribbble.com/shots/2313705-Ambivalence-ll-Monday
 
 import SwiftUI
 
-enum dayState
+enum DayState
 {
     case love
     case poop
@@ -20,16 +21,28 @@ struct CardView: View
     @State private var translation: CGSize = .zero
     @State private var motionScale: Double = 0.0
     @State private var iconOpacity: Double = 0.0
+    @State private var isCardMoving: Bool = false
+    @State private var lastCardState: DayState = .empty
     
     var day: String = "Day"
     var cardAlpha: Double = 1.0
     let cardRotLimit: CGFloat = 20.0
     
-    private func GetIconName(offset: CGFloat) -> String
+    private func GetIconName(state: DayState) -> String
     {
-        if offset <= -0.1   { return "Poop" }
-        if offset >= 0.1    { return "Love" }
-        return "Empty"
+        switch (state)
+        {
+        case .love: return "Love"
+        case .poop: return "Poop"
+        default: return "Empty"
+        }
+    }
+    
+    private func SetCardState(offset: CGFloat) -> DayState
+    {
+        if offset <= -0.1   { return .poop }
+        if offset >= 0.1    { return .love }
+        return .empty
     }
     
     var body: some View
@@ -42,7 +55,7 @@ struct CardView: View
                 VStack
                 {
                     Spacer()
-                    Image(GetIconName(offset: self.translation.width))
+                    Image(GetIconName(state: self.lastCardState))
                         .frame(width: 96, height: 96)
                         .opacity(self.iconOpacity)
                     Spacer()
@@ -66,16 +79,22 @@ struct CardView: View
             .animation(.interactiveSpring(response: 0.5, blendDuration: 0.3))
             .gesture(
                 DragGesture()
-                    .onChanged { gesture in
-                self.translation = gesture.translation
-                self.motionScale = Double(gesture.translation.width / geometry.size.width)
-                
-                self.iconOpacity = Double.Remap(from: self.motionScale, fromMin: 0.0, fromMax: 0.25, toMin: 0.0, toMax: 1.0)
-                print(self.iconOpacity)
+                    .onChanged
+                    {
+                        gesture in
+                            self.translation = gesture.translation
+                            self.motionScale = Double(gesture.translation.width / geometry.size.width)
+                            self.isCardMoving = true
+                            self.iconOpacity = Double.Remap(from: self.motionScale, fromMin: 0.0, fromMax: 0.25, toMin: 0.0, toMax: 1.0)
+                            print(self.iconOpacity)
+                            self.lastCardState = SetCardState(offset: gesture.translation.width)
                     }
-                    .onEnded {gesture in
-                        self.translation = .zero
-                        self.iconOpacity = 0.0
+                    .onEnded
+                    {
+                        gesture in
+                            self.isCardMoving = false
+                            self.translation = .zero
+                            self.iconOpacity = 0.0
                     }
             )
             
