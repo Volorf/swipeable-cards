@@ -19,26 +19,23 @@ struct CardView: View
 {
     
     @State private var translation: CGSize = .zero
+    @State private var motionOffset: Double = 0.0
     @State private var motionScale: Double = 0.0
-    @State private var iconOpacity: Double = 0.0
-    @State private var isCardMoving: Bool = false
     @State private var lastCardState: DayState = .empty
     
     var day: String = "Day"
     var cardAlpha: Double = 1.0
     let cardRotLimit: CGFloat = 20.0
     
-    private func GetIconName(state: DayState) -> String
-    {
-        switch (state)
-        {
-        case .love: return "Love"
-        case .poop: return "Poop"
-        default: return "Empty"
+    private func getIconName(state: DayState) -> String {
+        switch state {
+        case .love:     return "Love"
+        case .poop:     return "Poop"
+        default:        return "Empty"
         }
     }
     
-    private func SetCardState(offset: CGFloat) -> DayState
+    private func setCardState(offset: CGFloat) -> DayState
     {
         if offset <= -0.1   { return .poop }
         if offset >= 0.1    { return .love }
@@ -55,9 +52,10 @@ struct CardView: View
                 VStack
                 {
                     Spacer()
-                    Image(GetIconName(state: self.lastCardState))
+                    Image(getIconName(state: self.lastCardState))
                         .frame(width: 96, height: 96)
-                        .opacity(self.iconOpacity)
+                        .opacity(self.motionScale)
+                        .scaleEffect(CGFloat(self.motionScale) * 1)
                     Spacer()
                     Spacer()
                     Spacer()
@@ -83,18 +81,16 @@ struct CardView: View
                     {
                         gesture in
                             self.translation = gesture.translation
-                            self.motionScale = Double(gesture.translation.width / geometry.size.width)
-                            self.isCardMoving = true
-                            self.iconOpacity = Double.Remap(from: self.motionScale, fromMin: 0.0, fromMax: 0.25, toMin: 0.0, toMax: 1.0)
-                            print(self.iconOpacity)
-                            self.lastCardState = SetCardState(offset: gesture.translation.width)
+                            self.motionOffset = Double(gesture.translation.width / geometry.size.width)
+                            self.motionScale = Double.Remap(from: self.motionOffset, fromMin: 0.0, fromMax: 0.25, toMin: 0.0, toMax: 1.0)
+                            print(self.motionScale)
+                            self.lastCardState = setCardState(offset: gesture.translation.width)
                     }
                     .onEnded
                     {
                         gesture in
-                            self.isCardMoving = false
                             self.translation = .zero
-                            self.iconOpacity = 0.0
+                            self.motionScale = 0.0
                     }
             )
             
@@ -103,8 +99,10 @@ struct CardView: View
     }
 }
 
-struct CardView_Previews: PreviewProvider {
-    static var previews: some View {
+struct CardView_Previews: PreviewProvider
+{
+    static var previews: some View
+    {
         VStack
         {
             CardView()
