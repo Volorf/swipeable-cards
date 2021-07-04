@@ -6,23 +6,9 @@
 //
 import SwiftUI
 
-extension UIColor
-{
-    static var magenta: UIColor = UIColor(red: 1.0, green: 0.0, blue: 1.0, alpha: 1.0)
-}
-
-extension Color
-{
-    static func GetColorFromAssets(colorName: AppColor) -> Color
-    {
-        return Color(UIColor(named: colorName.rawValue) ?? UIColor.magenta)
-    }
-}
-
-
 extension Double
 {
-    static func Remap (from: Double, fromMin: Double, fromMax: Double, toMin: Double, toMax: Double) -> Double
+    static func remap(from: Double, fromMin: Double, fromMax: Double, toMin: Double, toMax: Double) -> Double
     {
         let fromAbs: Double  =  from - fromMin
         let fromMaxAbs: Double = fromMax - fromMin
@@ -33,6 +19,7 @@ extension Double
         
         to = abs(to)
         
+        // Clamps
         if to < toMin { return toMin }
         if to > toMax { return toMax }
        

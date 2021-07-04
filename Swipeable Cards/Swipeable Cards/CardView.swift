@@ -17,28 +17,28 @@ enum DayState
 
 struct CardView: View
 {
+    var day: String = "Day"
+    var cardAlpha: Double = 1.0
     
     @State private var translation: CGSize = .zero
     @State private var motionOffset: Double = 0.0
     @State private var motionScale: Double = 0.0
     @State private var lastCardState: DayState = .empty
     
-    var day: String = "Day"
-    var cardAlpha: Double = 1.0
-    let cardRotLimit: CGFloat = 20.0
-    
-    private func getIconName(state: DayState) -> String {
-        switch state {
-        case .love:     return "Love"
-        case .poop:     return "Poop"
-        default:        return "Empty"
+    private func getIconName(state: DayState) -> String
+    {
+        switch state
+        {
+            case .love:     return "Love"
+            case .poop:     return "Poop"
+            default:        return "Empty"
         }
     }
     
     private func setCardState(offset: CGFloat) -> DayState
     {
-        if offset <= -0.1   { return .poop }
-        if offset >= 0.1    { return .love }
+        if offset <= CardViewConsts.poopTriggerZone   { return .poop }
+        if offset >= CardViewConsts.loveTriggerZone   { return .love }
         return .empty
     }
     
@@ -53,9 +53,9 @@ struct CardView: View
                 {
                     Spacer()
                     Image(getIconName(state: self.lastCardState))
-                        .frame(width: 96, height: 96)
+                        .frame(width: CardViewConsts.iconSize.width, height: CardViewConsts.iconSize.height)
                         .opacity(self.motionScale)
-                        .scaleEffect(CGFloat(self.motionScale) * 1)
+                        .scaleEffect(CGFloat(self.motionScale))
                     Spacer()
                     Spacer()
                     Spacer()
@@ -63,18 +63,18 @@ struct CardView: View
                 }
                 
                 Text(day.uppercased())
-                    .font(.system(size: 24.0))
-                    .kerning(6.0)
-                    .foregroundColor(Color.GetColorFromAssets(colorName: .primaryTextColor))
+                    .font(.system(size: CardViewConsts.labelTextSize))
+                    .kerning(CardViewConsts.labelTextKerning)
+                    .foregroundColor(Color(AppColor.primaryTextColor.rawValue))
             }
-            .frame(width: geometry.size.width, height: geometry.size.width * 1.33)
+            .frame(width: geometry.size.width, height: geometry.size.width * CardViewConsts.cardRatio)
             .background(Color.white)
             .opacity(cardAlpha)
-            .cornerRadius(24)
-            .shadow(color: Color(red: 0.0, green: 0.0, blue: 0.0, opacity: 0.05), radius: 16, x: 0, y: 16)
-            .rotationEffect(.degrees(Double(self.translation.width / geometry.size.width * cardRotLimit)), anchor: .bottom)
+            .cornerRadius(CardViewConsts.cardCornerRadius)
+            .shadow(color: Color(AppColor.cardShadow.rawValue), radius: CardViewConsts.cardShadowBlur, x: 0, y: CardViewConsts.cardShadowOffset)
+            .rotationEffect(.degrees(Double(self.translation.width / geometry.size.width * CardViewConsts.cardRotLimit)), anchor: .bottom)
             .offset(x: self.translation.width, y: self.translation.height)
-            .animation(.interactiveSpring(response: 0.5, blendDuration: 0.3))
+            .animation(.interactiveSpring(response: CardViewConsts.springResponse, blendDuration: CardViewConsts.springBlendDur))
             .gesture(
                 DragGesture()
                     .onChanged
@@ -82,7 +82,7 @@ struct CardView: View
                         gesture in
                             self.translation = gesture.translation
                             self.motionOffset = Double(gesture.translation.width / geometry.size.width)
-                            self.motionScale = Double.Remap(from: self.motionOffset, fromMin: 0.0, fromMax: 0.25, toMin: 0.0, toMax: 1.0)
+                        self.motionScale = Double.remap(from: self.motionOffset, fromMin: CardViewConsts.motionRemapFromMin, fromMax: CardViewConsts.motionRemapFromMax, toMin: CardViewConsts.motionRemapToMin, toMax: CardViewConsts.motionRemapToMax)
                             print(self.motionScale)
                             self.lastCardState = setCardState(offset: gesture.translation.width)
                     }
@@ -99,6 +99,31 @@ struct CardView: View
     }
 }
 
+private struct CardViewConsts
+{
+    static let cardRotLimit: CGFloat = 20.0
+    static let poopTriggerZone: CGFloat = -0.1
+    static let loveTriggerZone: CGFloat = 0.1
+    
+    static let cardRatio: CGFloat = 1.333
+    static let cardCornerRadius: CGFloat = 24.0
+    static let cardShadowOffset: CGFloat = 16.0
+    static let cardShadowBlur: CGFloat = 16.0
+    
+    static let labelTextSize: CGFloat = 24.0
+    static let labelTextKerning: CGFloat = 6.0
+    
+    static let motionRemapFromMin: Double = 0.0
+    static let motionRemapFromMax: Double = 0.25
+    static let motionRemapToMin: Double = 0.0
+    static let motionRemapToMax: Double = 1.0
+    
+    static let springResponse: Double = 0.5
+    static let springBlendDur: Double = 0.3
+    
+    static let iconSize: CGSize = CGSize(width: 96.0, height: 96.0)
+}
+
 struct CardView_Previews: PreviewProvider
 {
     static var previews: some View
@@ -109,7 +134,7 @@ struct CardView_Previews: PreviewProvider
                 .padding()
                 .offset(y: 192)
         }
-        .background(Color.GetColorFromAssets(colorName: .accent))
+        .background(Color(AppColor.accent.rawValue))
         .edgesIgnoringSafeArea(.all)
     }
 }

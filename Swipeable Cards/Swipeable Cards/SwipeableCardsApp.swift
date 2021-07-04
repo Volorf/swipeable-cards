@@ -8,10 +8,13 @@
 import SwiftUI
 
 @main
-struct Swipeable_CardsApp: App {
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
+struct Swipeable_CardsApp: App
+{
+    var body: some Scene
+    {
+        WindowGroup
+        {
+            ContentView(daysToCheck: days)
         }
     }
 }

@@ -12,4 +12,5 @@ enum AppColor: String
 {
     case accent = "Accent"
     case primaryTextColor = "PrimaryTextColor"
+    case cardShadow = "CardShadow"
 }

@@ -14,6 +14,7 @@
 		794C85EF2688DB90004F1F99 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794C85EE2688DB90004F1F99 /* CardView.swift */; };
 		7962370D268D04C6007BD20C /* Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7962370C268D04C6007BD20C /* Extentions.swift */; };
 		79623710268E1C30007BD20C /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7962370F268E1C30007BD20C /* Colors.swift */; };
+		796237132691F796007BD20C /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796237122691F796007BD20C /* Data.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		794C85EE2688DB90004F1F99 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		7962370C268D04C6007BD20C /* Extentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extentions.swift; sourceTree = "<group>"; };
 		7962370F268E1C30007BD20C /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		796237122691F796007BD20C /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 			children = (
 				794C85DE2688DB5D004F1F99 /* SwipeableCardsApp.swift */,
 				794C85EE2688DB90004F1F99 /* CardView.swift */,
+				796237122691F796007BD20C /* Data.swift */,
 				794C85E02688DB5D004F1F99 /* ContentView.swift */,
 				7962370F268E1C30007BD20C /* Colors.swift */,
 				7962370C268D04C6007BD20C /* Extentions.swift */,
@@ -148,6 +151,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7962370D268D04C6007BD20C /* Extentions.swift in Sources */,
+				796237132691F796007BD20C /* Data.swift in Sources */,
 				79623710268E1C30007BD20C /* Colors.swift in Sources */,
 				794C85E12688DB5D004F1F99 /* ContentView.swift in Sources */,
 				794C85EF2688DB90004F1F99 /* CardView.swift in Sources */,

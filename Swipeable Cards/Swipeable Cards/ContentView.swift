@@ -7,42 +7,39 @@
 
 import SwiftUI
 
-var days: [String] = ["Monday", "Tuesday", "Wednesday"]
-
 struct ContentView: View
 {
-    let cardOffset: CGFloat = 24
-    let cardRatio: CGFloat = 1.333
-    let cardOffsetMultiplier: CGFloat = 4
-    let CARD_ALPHA_STEP: Double = 0.1
+    var daysToCheck: [String]
     
-    var yCardsOffset: CGFloat
+    private let cardOffset: CGFloat = 24
+    private let cardRatio: CGFloat = 1.333
+    private let cardOffsetMultiplier: CGFloat = 4
+    private let cardAlphaStep: Double = 0.1
+    
+    private var yCardsOffset: CGFloat
     {
-        return -CGFloat(days.count) * cardOffset / 2
+        return -CGFloat(daysToCheck.count) * cardOffset / 2
     }
     
-    private func CalculateCardWidth(geo: GeometryProxy, offset: CGFloat, cardIndex: Int) -> CGFloat
+    private func calculateCardWidth(geo: GeometryProxy, offset: CGFloat, cardIndex: Int) -> CGFloat
     {
         return geo.size.width - ((offset * 2) * CGFloat(cardIndex))
     }
     
-    private func CalculateCardYOffset(offset: CGFloat, cardIndex: Int) -> CGFloat
+    private func calculateCardYOffset(offset: CGFloat, cardIndex: Int) -> CGFloat
     {
         return offset * CGFloat(cardIndex)
     }
     
-    private func CalculateItemInvertIndex(arr: [String], item: String) -> Int
+    private func calculateItemInvertIndex(arr: [String], item: String) -> Int
     {
-        if arr.isEmpty
-        {
-            return 0
-        }
+        if arr.isEmpty { return 0 }
         return arr.count - 1 - arr.firstIndex(of: item)!
     }
     
-    private func CalculateCardAlpha(cardIndex: Int) -> Double
+    private func calculateCardAlpha(cardIndex: Int) -> Double
     {
-        return 1.0 - Double(cardIndex) * CARD_ALPHA_STEP
+        return 1.0 - Double(cardIndex) * cardAlphaStep
     }
     
     var body: some View
@@ -56,12 +53,12 @@ struct ContentView: View
                     Spacer()
                     ZStack
                     {
-                        ForEach (days, id: \.self)
+                        ForEach (daysToCheck, id: \.self)
                         {
                             day in
-                            CardView(day: day, cardAlpha: CalculateCardAlpha(cardIndex: CalculateItemInvertIndex(arr: days, item: day)))
-                                .frame(width: CalculateCardWidth(geo: geometry, offset: cardOffset, cardIndex: CalculateItemInvertIndex(arr: days, item: day)), height: geometry.size.width * cardRatio)
-                                .offset(x: 0, y: CalculateCardYOffset(offset: cardOffset, cardIndex: CalculateItemInvertIndex(arr: days, item: day)) * cardOffsetMultiplier)
+                            CardView(day: day, cardAlpha: calculateCardAlpha(cardIndex: calculateItemInvertIndex(arr: daysToCheck, item: day)))
+                                .frame(width: calculateCardWidth(geo: geometry, offset: cardOffset, cardIndex: calculateItemInvertIndex(arr: daysToCheck, item: day)), height: geometry.size.width * cardRatio)
+                                .offset(x: 0, y: calculateCardYOffset(offset: cardOffset, cardIndex: calculateItemInvertIndex(arr: daysToCheck, item: day)) * cardOffsetMultiplier)
                         }
     
                     }
@@ -71,7 +68,7 @@ struct ContentView: View
             }
         }
         .padding(cardOffset)
-        .background(Color.GetColorFromAssets(colorName: .accent))
+        .background(Color("Accent"))
         .edgesIgnoringSafeArea(.all)
     }
 }
@@ -80,6 +77,6 @@ struct ContentView_Previews: PreviewProvider
 {
     static var previews: some View
     {
-        ContentView()
+        ContentView(daysToCheck: days)
     }
 }
