@@ -83,7 +83,6 @@ struct CardView: View
                             self.translation = gesture.translation
                             self.motionOffset = Double(gesture.translation.width / geometry.size.width)
                         self.motionScale = Double.remap(from: self.motionOffset, fromMin: CardViewConsts.motionRemapFromMin, fromMax: CardViewConsts.motionRemapFromMax, toMin: CardViewConsts.motionRemapToMin, toMax: CardViewConsts.motionRemapToMax)
-                            print(self.motionScale)
                             self.lastCardState = setCardState(offset: gesture.translation.width)
                     }
                     .onEnded

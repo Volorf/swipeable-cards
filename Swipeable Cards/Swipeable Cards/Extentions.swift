@@ -19,7 +19,7 @@ extension Double
         
         to = abs(to)
         
-        // Clamps
+        // Clamps it
         if to < toMin { return toMin }
         if to > toMax { return toMax }
        
