@@ -71,10 +71,21 @@ struct CardView: View
             .background(Color.white)
             .opacity(cardAlpha)
             .cornerRadius(CardViewConsts.cardCornerRadius)
-            .shadow(color: Color(AppColor.cardShadow.rawValue), radius: CardViewConsts.cardShadowBlur, x: 0, y: CardViewConsts.cardShadowOffset)
-            .rotationEffect(.degrees(Double(self.translation.width / geometry.size.width * CardViewConsts.cardRotLimit)), anchor: .bottom)
+            .shadow(
+                color: Color(AppColor.cardShadow.rawValue),
+                radius: CardViewConsts.cardShadowBlur,
+                x: 0,
+                y: CardViewConsts.cardShadowOffset
+            )
+            .rotationEffect(
+                .degrees(Double(self.translation.width / geometry.size.width * CardViewConsts.cardRotLimit)),
+                anchor: .bottom
+            )
             .offset(x: self.translation.width, y: self.translation.height)
-            .animation(.interactiveSpring(response: CardViewConsts.springResponse, blendDuration: CardViewConsts.springBlendDur))
+            .animation(.interactiveSpring(
+                        response: CardViewConsts.springResponse,
+                        blendDuration: CardViewConsts.springBlendDur)
+            )
             .gesture(
                 DragGesture()
                     .onChanged
@@ -82,7 +93,13 @@ struct CardView: View
                         gesture in
                             self.translation = gesture.translation
                             self.motionOffset = Double(gesture.translation.width / geometry.size.width)
-                        self.motionScale = Double.remap(from: self.motionOffset, fromMin: CardViewConsts.motionRemapFromMin, fromMax: CardViewConsts.motionRemapFromMax, toMin: CardViewConsts.motionRemapToMin, toMax: CardViewConsts.motionRemapToMax)
+                            self.motionScale = Double.remap(
+                                from: self.motionOffset,
+                                fromMin: CardViewConsts.motionRemapFromMin,
+                                fromMax: CardViewConsts.motionRemapFromMax,
+                                toMin: CardViewConsts.motionRemapToMin,
+                                toMax: CardViewConsts.motionRemapToMax
+                            )
                             self.lastCardState = setCardState(offset: gesture.translation.width)
                     }
                     .onEnded
